@@ -344,29 +344,32 @@ document.addEventListener('DOMContentLoaded',  function() {
     }
   });
 
-        function domReady(fn) {
-    if (
-        document.readyState === "complete" ||
-        document.readyState === "interactive"
-    ) {
-        setTimeout(fn, 1000);
-    } else {
-        document.addEventListener("DOMContentLoaded", fn);
-    }
+function domReady(fn) {
+  if (
+      document.readyState === "complete" ||
+      document.readyState === "interactive"
+  ) {
+      setTimeout(fn, 1000);
+  } else {
+      document.addEventListener("DOMContentLoaded", fn);
+  }
 }
 
 domReady(function () {
 
     // If found you qr code
     function onScanSuccess(decodeText, decodeResult) {
-        alert("You Qr is : " + decodeText, decodeResult);
+        // alert("You Qr is : " + decodeText, decodeResult);
+        document.getElementById("qr-result").innerText = "Your QR is: " + decodeText;
     }
 
     let htmlscanner = new Html5QrcodeScanner(
         "qr-reader",
-        { fps: 10, qrbos: 250, facingMode: "environment"}
+        { fps: 10, qrbos: 250, facingMode: "environment", disableFlip: true // Prevent switching cameras
+        },
+        false // Verbose logging off
     );
-    htmlscanner.render(onScanSuccess);
+    htmlscanner.render(onScanSuccess, onScanFailure);
 });
 
   // Add event listener for the API form
