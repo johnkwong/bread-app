@@ -317,6 +317,8 @@ function checkForUpdate() {
 // Event listeners
 document.addEventListener('DOMContentLoaded',  function() {
   console.log('DOM fully loaded');
+
+  
   const searchInput = document.getElementById('search');
   if (searchInput) {
       searchInput.addEventListener('input', searchItems);
@@ -340,19 +342,32 @@ document.addEventListener('DOMContentLoaded',  function() {
       addCustomTag(inputText.value.trim());
       inputText.value = '';
     }
-
-function onScanSuccess(decodedText, decodedResult) {
-    // Handle on success condition with the decoded text or result.
-    console.log(`Scan result: ${decodedText}`, decodedResult);
-}
-
-var html5QrcodeScanner = new Html5QrcodeScanner(
-	"reader", { fps: 10, qrbox: 250 });
-html5QrcodeScanner.render(onScanSuccess);
-
-
   });
 
+        function domReady(fn) {
+    if (
+        document.readyState === "complete" ||
+        document.readyState === "interactive"
+    ) {
+        setTimeout(fn, 1000);
+    } else {
+        document.addEventListener("DOMContentLoaded", fn);
+    }
+}
+
+domReady(function () {
+
+    // If found you qr code
+    function onScanSuccess(decodeText, decodeResult) {
+        alert("You Qr is : " + decodeText, decodeResult);
+    }
+
+    let htmlscanner = new Html5QrcodeScanner(
+        "qr-reader",
+        { fps: 10, qrbos: 250 }
+    );
+    htmlscanner.render(onScanSuccess);
+});
 
   // Add event listener for the API form
   const apiForm = document.getElementById('apiForm');
