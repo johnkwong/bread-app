@@ -343,39 +343,67 @@ document.addEventListener('DOMContentLoaded',  function() {
     }
   });
 
-function domReady(fn) {
-  if (
-      document.readyState === "complete" ||
-      document.readyState === "interactive"
-  ) {
-      setTimeout(fn, 1000);
-  } else {
-      document.addEventListener("DOMContentLoaded", fn);
-  }
-}
+// function domReady(fn) {
+//   if (
+//       document.readyState === "complete" ||
+//       document.readyState === "interactive"
+//   ) {
+//       setTimeout(fn, 1000);
+//   } else {
+//       document.addEventListener("DOMContentLoaded", fn);
+//   }
+// }
 
-domReady(function () {
-    // Initialize Materialize modal
-    var modals = document.querySelectorAll('.modal');
-    M.Modal.init(modals);
+// domReady(function () {
+//     // Initialize Materialize modal
+//     var modals = document.querySelectorAll('.modal');
+//     M.Modal.init(modals);
 
-    const modalInstance = M.Modal.getInstance(document.getElementById('qr-modal'));
+//     const modalInstance = M.Modal.getInstance(document.getElementById('qr-modal'));
 
-    function onScanSuccess(decodeText, decodeResult) {
-        // Set result text inside modal
-        document.getElementById("qr-modal-result").innerText = "Your QR is: " + decodeText;
+//     function onScanSuccess(decodeText, decodeResult) {
+//         // Set result text inside modal
+//         document.getElementById("qr-modal-result").innerText = "Your QR is: " + decodeText;
 
-        // Open the modal
-        modalInstance.open();
+//         // Open the modal
+//         modalInstance.open();
+//     }
+
+//     let htmlscanner = new Html5QrcodeScanner(
+//         "qr-reader",
+//         { fps: 10, qrbos: 250, facingMode: "environment" // Prevent switching cameras
+//         } // Verbose logging off
+//     );
+//     htmlscanner.render(onScanSuccess);
+// });
+
+Quagga.init(
+  {
+    inputStream: {
+      name: "Live",
+      type: "LiveStream",
+      target: document.querySelector("#viewport")
+    },
+    decoder: {
+      readers: ["code_128_reader"]
     }
+  },
+  function (err) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log("Initialization finished. Ready to start");
+    Quagga.start();
+  }
+);
 
-    let htmlscanner = new Html5QrcodeScanner(
-        "qr-reader",
-        { fps: 10, qrbos: 250, facingMode: "environment" // Prevent switching cameras
-        } // Verbose logging off
-    );
-    htmlscanner.render(onScanSuccess);
+Quagga.onDetected(function (result) {
+  var code = result.codeResult.code;
+  console.log(code);
+  document.getElementById("output").innerHTML = result.codeResult.code;
 });
+
 
   // Add event listener for the API form
   const apiForm = document.getElementById('apiForm');
