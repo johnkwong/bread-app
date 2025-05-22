@@ -356,11 +356,18 @@ function domReady(fn) {
 }
 
 domReady(function () {
+    // Initialize Materialize modal
+    var modals = document.querySelectorAll('.modal');
+    M.Modal.init(modals);
 
-    // If found you qr code
+    const modalInstance = M.Modal.getInstance(document.getElementById('qr-modal'));
+
     function onScanSuccess(decodeText, decodeResult) {
-        // alert("You Qr is : " + decodeText, decodeResult);
-        document.getElementById("qr-result").innerText = "Your QR is: " + decodeText;
+        // Set result text inside modal
+        document.getElementById("qr-modal-result").innerText = "Your QR is: " + decodeText;
+
+        // Open the modal
+        modalInstance.open();
     }
 
     let htmlscanner = new Html5QrcodeScanner(

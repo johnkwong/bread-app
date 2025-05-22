@@ -2,7 +2,7 @@
 <html>
 <head>
   <!-- Import Materialize CSS -->
-  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet"> -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
   <!-- Import Google Icon Font -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
@@ -84,8 +84,22 @@
   <div class="container">
     <br>
     <div id="qr-reader" width="100%"></div>
-    
   </div>
+
+<!-- Trigger Modal Button (optional) -->
+<button data-target="qr-modal" class="btn modal-trigger">Show Modal</button>
+
+<!-- Materialize Modal -->
+<div id="qr-modal" class="modal">
+  <div class="modal-content">
+    <h4>Scanned QR Code</h4>
+    <p id="qr-modal-result"></p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+  </div>
+</div>
+
 <div class="fixed-action-btn">
   <a class="btn-floating btn-large red">
     <i class="large material-icons">add</i>
