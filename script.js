@@ -373,8 +373,7 @@ domReady(function () {
     let htmlscanner = new Html5QrcodeScanner(
         "qr-reader",
         { fps: 10, qrbos: 250, facingMode: "environment", disableFlip: true // Prevent switching cameras
-        },
-        false // Verbose logging off
+        } // Verbose logging off
     );
     htmlscanner.render(onScanSuccess, onScanFailure);
 });
