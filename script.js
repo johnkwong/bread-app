@@ -364,7 +364,7 @@ domReady(function () {
 
     let htmlscanner = new Html5QrcodeScanner(
         "qr-reader",
-        { fps: 10, qrbos: 250 }
+        { fps: 10, qrbos: 250, facingMode: "environment"}
     );
     htmlscanner.render(onScanSuccess);
 });
