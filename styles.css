@@ -73,7 +73,7 @@
 }
 
 #qr-reader {
-    padding: 20px !important;
+    padding: 0px !important;
     border: 1.5px solid #b2b2b2 !important;
     border-radius: 8px;
 }
