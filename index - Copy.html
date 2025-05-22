@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Import Materialize CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <!-- Import Google Icon Font -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Bakery</title>
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+</head>
+<body>
+
+  <!-- Navigator -->
+  <nav class="green">
+    <div class="nav-wrapper">
+      <a href="index.html" class="brand-logo">BakeCheck</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="customtags.html">Custom Tags</a></li>
+        <li><a href="system.html">System</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Mobile Navigator -->
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="customtags.html">Custom Tags</a></li>
+    <li><a href="system.html">System</a></li>
+  </ul>
+
+  <!-- Search Bar -->
+  <div class="container">
+    <br/>
+    <div class="row">
+      <div class="col s12">
+        <nav class="green">
+          <div class="nav-wrapper">
+            <form>
+              <div class="input-field">
+                <input id="search" type="search" required>
+                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                <!-- <i class="material-icons">close</i> -->
+              </div>
+            </form>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collapsible for Custom Tags Search -->
+  <div class="container">
+    <ul id="customTags" class="collapsible">
+      <li class="active">
+        <div class="collapsible-body">
+        <div class="scroll-container">
+        </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Collapsible for Frequently Search -->
+  <div class="container">
+    <ul id="FrequentTags" class="collapsible">
+      <li class="active">
+        <div class="collapsible-body">
+        <div class="scroll-container">
+        <div class="scroll-item"></div>
+        </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+  <!-- Collections -->
+  <div class="container">
+    <ul class="collection">
+      <li class="collection-item avatar">
+        <i class="material-icons circle red-icon">蛋</i>
+        <span class="title"></span>
+        <p> 
+           <span class="ellipsis"></span>
+           <br>
+           <span></span>
+        </p>
+        <div class="secondary-content" style="font-size: 35px;top: 30px;"> </div>
+      </li>
+
+    </ul>
+  </div>
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large red">
+    <i class="large material-icons">add</i>
+  </a>
+  <ul>
+    <li><a class="btn-floating green"><i class="material-icons">search</i></a></li>
+    <!-- <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li> -->
+    <li><a class="btn-floating blue"><i class="material-icons">add_circle_outline</i></a></li>
+  </ul>
+</div>
+  <!-- Import Materialize JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <script src="script.js"></script>
+  <!-- <script src="customtags.js"></script> -->
+</body>
+</html>

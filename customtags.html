@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Import Materialize CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <!-- Import Google Icon Font -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Custom Tags</title>
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+</head>
+<body>
+
+  <!-- Navigator -->
+  <nav class="green">
+    <div class="nav-wrapper">
+      <a href="index.html" class="brand-logo">BakeCheck</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="customtags.html">Custom Tags</a></li>
+        <li><a href="system.html">System</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Mobile Navigator -->
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="customtags.html">Custom Tags</a></li>
+    <li><a href="system.html">System</a></li>
+  </ul>
+
+  <!-- Card with Form -->
+  <div class="container">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">Add Custom Tag</span>
+        <form id="add_form">
+          <div class="input-field">
+            <input id="input_text" type="text" class="validate" required>
+            <label for="input_text">Tag name</label>
+          </div>
+          <button class="btn waves-effect waves-light full-width" type="submit" name="action">Add
+            <i class="material-icons right">add_circle</i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <ul class="collection with-header" id="custom_tags">
+      <li class="collection-header"><h6>Custom Tags</h6></li>
+    </ul>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content">
+      <h4>Confirm Delete</h4>
+      <p>Are you sure you want to delete this custom tag?</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+      <a href="#!" id="confirmDelete" class="waves-effect waves-red btn-flat">Delete</a>
+    </div>
+  </div>
+  
+  <!-- Import Materialize JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

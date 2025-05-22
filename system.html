@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Import Materialize CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <!-- Import Google Icon Font -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Custom Tags</title>
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+</head>
+<body>
+
+  <!-- Navigator -->
+  <nav class="green">
+    <div class="nav-wrapper">
+      <a href="index.html" class="brand-logo">BakeCheck</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="customtags.html">Custom Tags</a></li>
+        <li><a href="system.html">System</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Mobile Navigator -->
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="customtags.html">Custom Tags</a></li>
+    <li><a href="system.html">System</a></li>
+  </ul>
+
+
+<!-- Card with Form -->
+<div class="container">
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title">Data Source</span>
+      <form id="apiForm">
+        <div class="input-field">
+          <input id="apiUrl" type="text" class="validate" required>
+          <label for="input_text">Data Source URL</label>
+        </div>
+        <button id="updateData" class="btn waves-effect waves-light full-width" type="submit" name="action">Update Data
+          <i class="material-icons right">sync</i>
+        </button>
+        <div id="preloader" class="preloader-wrapper small active" style="display: none;">
+          <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left ">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+  
+<!-- Restore Defaults Button -->
+<div class="container center-align">
+  <button class="btn waves-effect waves-light s12 red darken-1 modal-trigger" href="#restoreDefaultsModal">Restore Defaults</button>
+</div>
+
+<!-- Restore Defaults Modal -->
+<div id="restoreDefaultsModal" class="modal">
+  <div class="modal-content">
+    <h4>Restore Defaults</h4>
+    <p>Are you sure you want to restore defaults? This will clear all saved data.</p>
+  </div>
+  <div class="modal-footer">
+    <button class="waves-effect waves-green btn-flat agree">Agree</button>
+    <button class="waves-effect waves-red btn-flat disagree">Disagree</button>
+  </div>
+</div>
+  <!-- Import Materialize JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var sidenavElems = document.querySelectorAll('.sidenav');
+      var sidenavInstances = M.Sidenav.init(sidenavElems);
+
+      var modalElems = document.querySelectorAll('.modal');
+      var modalInstances = M.Modal.init(modalElems);
+
+ // Initialize modal
+ const restoreDefaultsModal = document.querySelector('#restoreDefaultsModal');
+  M.Modal.init(restoreDefaultsModal);
+
+  // Get modal buttons
+  const agreeButton = restoreDefaultsModal.querySelector('.agree');
+  const disagreeButton = restoreDefaultsModal.querySelector('.disagree');
+
+  // Add event listeners to modal buttons
+  agreeButton.addEventListener('click', function() {
+    // Clear local storage
+    localStorage.clear();
+    // Reset API URL input field
+    // apiUrlInput.value = '';
+    // Close modal
+    const instance = M.Modal.getInstance(restoreDefaultsModal);
+    instance.close();
+    // Show toast to confirm data has been cleared
+    M.toast({html: 'Defaults restored. All saved data has been cleared.', classes: 'green'});
+  });
+
+    // Retrieve API URL from local storage
+    const apiUrlInput = document.getElementById('apiUrl');
+    const savedApiUrl = localStorage.getItem(API_URL_KEY);
+    if (savedApiUrl) {
+      apiUrlInput.value = savedApiUrl;
+    }
+
+
+  disagreeButton.addEventListener('click', function() {
+    // Close modal
+    const instance = M.Modal.getInstance(restoreDefaultsModal);
+    instance.close();
+  });
+
+
+    });
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
+

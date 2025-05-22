@@ -1,0 +1,64 @@
+/* Import Materialize CSS */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css');
+
+/* Import Google Icon Font */
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+/* Custom Styles */
+.badge-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.badge-container .badge {
+  margin: 5px;
+}
+
+.col {
+  padding: 0 !important
+}
+
+.collapsible-body {
+  padding: 0;
+}
+
+.scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.scroll-item {
+  display: inline-block;
+  padding: 6px;
+  margin: 6px 2px 6px 2px;
+  background-color: lightblue;
+  text-align: center;
+}
+
+.red-icon {
+  background-color: orange !important;
+}
+
+.secondary-content {
+  color: #4caf50;
+}
+
+@media only screen and (max-width: 768px) {
+  .ellipsis {
+    display: inline-flex;
+    max-width: 16ch; /* adjust the number of characters as needed */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #customTags{
+    margin-bottom: 0 !important;
+  }
+}
+
+.card .card-content {
+  padding: 10px;
+  border-radius: 0 0 2px 2px;
+}
