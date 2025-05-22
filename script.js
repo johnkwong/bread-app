@@ -317,7 +317,7 @@ function checkForUpdate() {
 // Event listeners
 document.addEventListener('DOMContentLoaded',  function() {
   console.log('DOM fully loaded');
-
+  alert("Testing");
   
   const searchInput = document.getElementById('search');
   if (searchInput) {
