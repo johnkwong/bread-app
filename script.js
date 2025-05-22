@@ -317,7 +317,6 @@ function checkForUpdate() {
 // Event listeners
 document.addEventListener('DOMContentLoaded',  function() {
   console.log('DOM fully loaded');
-  alert("Testing");
   
   const searchInput = document.getElementById('search');
   if (searchInput) {
@@ -372,9 +371,8 @@ domReady(function () {
 
     let htmlscanner = new Html5QrcodeScanner(
         "qr-reader",
-        { fps: 10, qrbos: 250, facingMode: "environment", disableFlip: true // Prevent switching cameras
-        },
-        false // Verbose logging off
+        { fps: 10, qrbos: 250, facingMode: "environment" // Prevent switching cameras
+        } // Verbose logging off
     );
     htmlscanner.render(onScanSuccess);
 });
