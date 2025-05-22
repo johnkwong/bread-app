@@ -373,9 +373,10 @@ domReady(function () {
     let htmlscanner = new Html5QrcodeScanner(
         "qr-reader",
         { fps: 10, qrbos: 250, facingMode: "environment", disableFlip: true // Prevent switching cameras
-        } // Verbose logging off
+        },
+        false // Verbose logging off
     );
-    htmlscanner.render(onScanSuccess, onScanFailure);
+    htmlscanner.render(onScanSuccess);
 });
 
   // Add event listener for the API form

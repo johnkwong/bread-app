@@ -119,9 +119,6 @@ video {
 #html5-qrcode-select-camera {
         display: none !important;
     }
-#qr-reader__camera_selection {
-        display: none !important;
-    }
     /* Hide the 'Scan an image file' link */
     #html5-qrcode-anchor-scan-type-change {
         display: none !important;
