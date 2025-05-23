@@ -40,7 +40,7 @@
     });
 
     Quagga.onDetected(function (result) {
-        const resultString = JSON.stringify(result, null, 2); // null, 2 for pretty-printed JSON
+        const resultString = JSON.stringify(result.codeResult, null, 2); // null, 2 for pretty-printed JSON
         alert("Detected barcode details:\n" + resultString);
     });
 </script>
