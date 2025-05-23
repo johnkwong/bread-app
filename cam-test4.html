@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZXing Scanner</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+    video { width: 100%; max-width: 640px; border: 2px solid #333; }
+    #result { margin-top: 10px; font-size: 16px; }
+    button { padding: 10px 20px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Barcode and QR Scanner</h1>
+  <video id="video" autoplay></video>
+  <div id="result">No code detected</div>
+  <button id="start-btn">Start Scanner</button>
+  <script src="https://unpkg.com/@zxing/library@0.20.0/umd/index.min.js"></script>
+  <script>
+    const video = document.getElementById("video");
+    const resultDiv = document.getElementById("result");
+    const startBtn = document.getElementById("start-btn");
+    let stream;
+
+    async function startScanner() {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment" }
+        });
+        video.srcObject = stream;
+        const codeReader = new ZXing.BrowserMultiFormatReader();
+        codeReader.decodeFromVideoElement(video, (result, err) => {
+          if (result) {
+            resultDiv.textContent = `Detected: ${result.text}`;
+            codeReader.reset();
+            stream.getTracks().forEach(track => track.stop());
+            startBtn.disabled = false;
+          }
+          if (err) console.warn(err);
+        });
+        startBtn.disabled = true;
+      } catch (err) {
+        resultDiv.textContent = `Error: ${err.message}`;
+        console.error(err);
+      }
+    }
+
+    startBtn.addEventListener("click", startScanner);
+  </script>
+</body>
+</html>

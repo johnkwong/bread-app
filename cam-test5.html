@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jsQR Scanner</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+    canvas { width: 100%; max-width: 640px; border: 2px solid #333; }
+    #result { margin-top: 10px; font-size: 16px; }
+    button { padding: 10px 20px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>QR Code Scanner</h1>
+  <canvas id="canvas"></canvas>
+  <div id="result">No code detected</div>
+  <button id="start-btn">Start Scanner</button>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+  <script>
+    const video = document.createElement("video");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const resultDiv = document.getElementById("result");
+    const startBtn = document.getElementById("start-btn");
+    let scanning = false;
+
+    async function startScanner() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment" }
+        });
+        video.srcObject = stream;
+        video.play();
+        canvas.width = 640;
+        canvas.height = 480;
+        scanning = true;
+        startBtn.disabled = true;
+        tick();
+      } catch (err) {
+        resultDiv.textContent = `Error: ${err.message}`;
+        console.error(err);
+      }
+    }
+
+    function tick() {
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
+        if (code) {
+          resultDiv.textContent = `Detected: ${code.data}`;
+          video.srcObject.getTracks().forEach(track => track.stop());
+          scanning = false;
+          startBtn.disabled = false;
+          return;
+        }
+      }
+      if (scanning) requestAnimationFrame(tick);
+    }
+
+    startBtn.addEventListener("click", startScanner);
+  </script>
+</body>
+</html>
