@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>QuaggaJS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+    <style>
+        #camera video{
+            width:100%;
+            max-width: 640px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="camera" style="width:100%"></div>
+<script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2/dist/quagga.min.js"></script>
+<script>
+    const quaggaConf = {
+        inputStream: {
+            target: document.querySelector("#camera"),
+            type: "LiveStream",
+            constraints: {
+                width: { min: 640 },
+                height: { min: 480 },
+                facingMode: "environment",
+                aspectRatio: { min: 1, max: 2 }
+            }
+        },
+        decoder: {
+            readers: ['code_128_reader']
+        },
+    }
+
+    Quagga.init(quaggaConf, function (err) {
+        if (err) {
+            return console.log(err);
+        }
+        Quagga.start();
+    });
+
+    Quagga.onDetected(function (result) {
+        alert("Detected barcode: " + result.codeResult.code);
+    });
+</script>
+</body>
+</html>
