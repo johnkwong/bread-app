@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>QuaggaJS</title>
+    <title>QuaggaJS Multi-Code Scanner</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
     <style>
-        #camera video{
-            width:100%;
+        #camera video {
+            width: 100%;
             max-width: 640px;
         }
     </style>
@@ -28,20 +28,39 @@
             }
         },
         decoder: {
-            readers: ['code_128_reader', 'qrcode_reader']
+            readers: [
+                'code_128_reader',
+                'ean_reader',
+                'ean_8_reader',
+                'code_39_reader',
+                'code_39_vin_reader',
+                'codabar_reader',
+                'upc_reader',
+                'upc_e_reader',
+                'i2of5_reader',
+                '2of5_reader',
+                'code_93_reader',
+                'qrcode_reader'
+            ]
         },
-    }
+    };
 
     Quagga.init(quaggaConf, function (err) {
         if (err) {
-            return console.log(err);
+            console.log(err);
+            alert("Error initializing QuaggaJS: " + err);
+            return;
         }
         Quagga.start();
     });
 
     Quagga.onDetected(function (result) {
-        const resultString = JSON.stringify(result.codeResult, null, 2); // null, 2 for pretty-printed JSON
-        alert("Detected barcode details:\n" + resultString);
+        const code = result.codeResult.code;
+        const format = result.codeResult.format;
+        const resultString = `Code: ${code}\nFormat: ${format}`;
+        alert("Detected code details:\n" + resultString);
+        // Optionally stop scanning after detection
+        // Quagga.stop();
     });
 </script>
 </body>
