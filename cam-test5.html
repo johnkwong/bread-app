@@ -49,6 +49,8 @@
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const code = jsQR(imageData.data, imageData.width, imageData.height);
         if (code) {
+          const resultString = JSON.stringify(code.data, null, 2); // null, 2 for pretty-printed JSON
+          alert("Detected barcode details:\n" + resultString);
           resultDiv.textContent = `Detected: ${code.data}`;
           video.srcObject.getTracks().forEach(track => track.stop());
           scanning = false;
