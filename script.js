@@ -377,33 +377,6 @@ document.addEventListener('DOMContentLoaded',  function() {
 //     htmlscanner.render(onScanSuccess);
 // });
 
-Quagga.init(
-  {
-    inputStream: {
-      name: "Live",
-      type: "LiveStream",
-      target: document.querySelector("#viewport")
-    },
-    decoder: {
-      readers: ["code_128_reader"]
-    }
-  },
-  function (err) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    console.log("Initialization finished. Ready to start");
-    Quagga.start();
-  }
-);
-
-Quagga.onDetected(function (result) {
-  var code = result.codeResult.code;
-  console.log(code);
-  document.getElementById("output").innerHTML = result.codeResult.code;
-});
-
 
   // Add event listener for the API form
   const apiForm = document.getElementById('apiForm');
@@ -450,4 +423,97 @@ Quagga.onDetected(function (result) {
     var instances = M.FloatingActionButton.init(elems, options);
   });
 // await fetchItems();
+
+// scanner
+    let stream = null;
+    let scanning = false;
+
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const resultElement = document.getElementById('result');
+    const startButton = document.getElementById('startButton');
+    const stopButton = document.getElementById('stopButton');
+
+    async function startScanner() {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment' }
+        });
+        video.srcObject = stream;
+        video.play();
+        canvas.width = 640;
+        canvas.height = 480;
+        scanning = true;
+        startButton.disabled = true;
+        stopButton.disabled = false;
+        scan();
+        initQuagga();
+      } catch (err) {
+        resultElement.textContent = `Error accessing camera: ${err.message}`;
+      }
+    }
+
+    function stopScanner() {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+      }
+      scanning = false;
+      startButton.disabled = false;
+      stopButton.disabled = true;
+      resultElement.textContent = 'Scan a barcode or QR code...';
+      Quagga.stop();
+    }
+
+    function scan() {
+      if (!scanning) return;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const code = jsQR(imageData.data, imageData.width, imageData.height);
+      if (code) {
+        resultElement.textContent = `QR Code: ${code.data}`;
+      }
+      requestAnimationFrame(scan);
+    }
+
+    function initQuagga() {
+      Quagga.init({
+        inputStream: {
+          name: 'Live',
+          type: 'LiveStream',
+          target: video,
+          constraints: {
+            width: 640,
+            height: 480,
+            facingMode: 'environment'
+          }
+        },
+        decoder: {
+          readers: [
+            'code_128_reader',
+            'ean_reader',
+            'ean_8_reader',
+            'code_39_reader',
+            'upc_reader'
+          ]
+        }
+      }, (err) => {
+        if (err) {
+          resultElement.textContent = `QuaggaJS Error: ${err}`;
+          return;
+        }
+        Quagga.start();
+      });
+
+      Quagga.onDetected((data) => {
+        if (data && data.codeResult && data.codeResult.code) {
+          resultElement.textContent = `Barcode: ${data.codeResult.code} (${data.codeResult.format})`;
+        }
+      });
+    }
+
+    startButton.addEventListener('click', startScanner);
+    stopButton.addEventListener('click', stopScanner);
+
 });
