@@ -424,6 +424,10 @@ document.addEventListener('DOMContentLoaded',  function() {
   });
 // await fetchItems();
 
+
+
+});
+
 // scanner
     let stream = null;
     let scanning = false;
@@ -515,5 +519,3 @@ document.addEventListener('DOMContentLoaded',  function() {
 
     startButton.addEventListener('click', startScanner);
     stopButton.addEventListener('click', stopScanner);
-
-});
