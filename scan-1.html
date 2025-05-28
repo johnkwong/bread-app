@@ -88,8 +88,9 @@
         });
         video.srcObject = stream;
         video.play();
-        canvas.width = 640;
-        canvas.height = 480;
+        // canvas.width = 640;
+        canvas.style.width = '100%';
+        canvas.height = 200;
         scanning = true;
         startButton.disabled = true;
         stopButton.disabled = false;
