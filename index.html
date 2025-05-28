@@ -80,6 +80,16 @@
     </ul>
   </div> -->
 
+
+
+<!-- Trigger Modal Button (optional) -->
+<button data-target="qr-modal" class="btn modal-trigger">Show Modal</button>
+
+<!-- Materialize Modal -->
+<div id="qr-modal" class="modal">
+  <div class="modal-content">
+    <h4>Scanned QR Code</h4>
+    <p id="qr-modal-result"></p>
     <div id="controls">
       <button id="startButton">Start Scanner</button>
       <button id="stopButton" disabled>Stop Scanner</button>
@@ -89,18 +99,6 @@
       <canvas id="canvas"></canvas>
     </div>
     <div id="result">Scan a barcode or QR code...</div>
-
-<!-- Trigger Modal Button (optional) -->
-<button data-target="qr-modal" class="btn modal-trigger">Show Modal</button>
-
-
-
-
-<!-- Materialize Modal -->
-<div id="qr-modal" class="modal" style="width: 95%;">
-  <div class="modal-content">
-    <h4>Scanned QR Code</h4>
-
   </div>
   <div class="modal-footer">
     <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
@@ -124,7 +122,7 @@
   
   <!-- <script src="customtags.js"></script> -->
 <!-- <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script> -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2/dist/quagga.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2/dist/quagga.min.js"></script>
 
 
 </body>
