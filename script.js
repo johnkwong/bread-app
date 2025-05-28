@@ -512,7 +512,8 @@ document.addEventListener('DOMContentLoaded',  function() {
 
       Quagga.onDetected((data) => {
         if (data && data.codeResult && data.codeResult.code) {
-          resultElement.textContent = `Barcode: ${data.codeResult.code} (${data.codeResult.format})`;
+          // resultElement.textContent = `Barcode: ${data.codeResult.code} (${data.codeResult.format})`;
+          resultElement.textContent = `Barcode: ${data.codeResult.code} `;
         }
       });
     }
