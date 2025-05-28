@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Barcode and QR Code Scanner</title>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+    #videoContainer {
+      position: relative;
+      width: 640px;
+      height: 480px;
+      margin-bottom: 20px;
+    }
+    #video {
+      width: 100%;
+      height: 100%;
+      border: 2px solid #333;
+      border-radius: 8px;
+    }
+    #canvas {
+      display: none;
+    }
+    #controls {
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 0 10px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #result {
+      font-size: 18px;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: white;
+      border-radius: 5px;
+      width: 600px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Barcode and QR Code Scanner</h1>
+  <div id="controls">
+    <button id="startButton">Start Scanner</button>
+    <button id="stopButton" disabled>Stop Scanner</button>
+  </div>
+  <div id="videoContainer">
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+  </div>
+  <div id="result">Scan a barcode or QR code...</div>
+
+  <script>
+    let stream = null;
+    let scanning = false;
+
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const resultElement = document.getElementById('result');
+    const startButton = document.getElementById('startButton');
+    const stopButton = document.getElementById('stopButton');
+
+    async function startScanner() {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment' }
+        });
+        video.srcObject = stream;
+        video.play();
+        canvas.width = 640;
+        canvas.height = 480;
+        scanning = true;
+        startButton.disabled = true;
+        stopButton.disabled = false;
+        scan();
+        initQuagga();
+      } catch (err) {
+        resultElement.textContent = `Error accessing camera: ${err.message}`;
+      }
+    }
+
+    function stopScanner() {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+      }
+      scanning = false;
+      startButton.disabled = false;
+      stopButton.disabled = true;
+      resultElement.textContent = 'Scan a barcode or QR code...';
+      Quagga.stop();
+    }
+
+    function scan() {
+      if (!scanning) return;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const code = jsQR(imageData.data, imageData.width, imageData.height);
+      if (code) {
+        resultElement.textContent = `QR Code: ${code.data}`;
+      }
+      requestAnimationFrame(scan);
+    }
+
+    function initQuagga() {
+      Quagga.init({
+        inputStream: {
+          name: 'Live',
+          type: 'LiveStream',
+          target: video,
+          constraints: {
+            width: 640,
+            height: 480,
+            facingMode: 'environment'
+          }
+        },
+        decoder: {
+          readers: [
+            'code_128_reader',
+            'ean_reader',
+            'ean_8_reader',
+            'code_39_reader',
+            'upc_reader'
+          ]
+        }
+      }, (err) => {
+        if (err) {
+          resultElement.textContent = `QuaggaJS Error: ${err}`;
+          return;
+        }
+        Quagga.start();
+      });
+
+      Quagga.onDetected((data) => {
+        if (data && data.codeResult && data.codeResult.code) {
+          resultElement.textContent = `Barcode: ${data.codeResult.code} (${data.codeResult.format})`;
+        }
+      });
+    }
+
+    startButton.addEventListener('click', startScanner);
+    stopButton.addEventListener('click', stopScanner);
+  </script>
+</body>
+</html>
