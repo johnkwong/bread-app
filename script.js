@@ -447,7 +447,7 @@ document.addEventListener('DOMContentLoaded',  function() {
         video.srcObject = stream;
         video.play();
         canvas.width = 640;
-        canvas.height = 480;
+        canvas.height = 200;
         scanning = true;
         startButton.disabled = true;
         stopButton.disabled = false;
@@ -489,7 +489,7 @@ document.addEventListener('DOMContentLoaded',  function() {
           target: video,
           constraints: {
             width: 640,
-            height: 480,
+            height: 200,
             facingMode: 'environment'
           }
         },
@@ -509,13 +509,14 @@ document.addEventListener('DOMContentLoaded',  function() {
         }
         Quagga.start();
       });
-
+      
       Quagga.onDetected((data) => {
         if (data && data.codeResult && data.codeResult.code) {
           // resultElement.textContent = `Barcode: ${data.codeResult.code} (${data.codeResult.format})`;
           resultElement.textContent = `Barcode: ${data.codeResult.code} `;
         }
       });
+      video.style.width = '100%';
     }
 
     startButton.addEventListener('click', startScanner);
